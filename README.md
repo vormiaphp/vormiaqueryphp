@@ -57,6 +57,19 @@ This command will:
 - Remove VormiaQuery environment variables from `.env` and `.env.example` files
 - Remove CORS configuration file
 
+## JavaScript Client Package
+
+For optimal performance and RSA encryption support, install the companion JavaScript package:
+
+```bash
+npm install vormiaqueryjs
+```
+
+For complete documentation and examples, visit:
+
+- [GitHub Repository](https://github.com/vormiaphp/vormiaqueryjs)
+- [NPM Package](https://www.npmjs.com/package/vormiaqueryjs)
+
 ## Middleware Usage
 
 Register the middleware in your `app/Http/Kernel.php`:
