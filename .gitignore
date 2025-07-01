@@ -1,0 +1,28 @@
+# Composer dependencies
+/vendor/
+
+# Laravel environment
+.env
+.env.*
+
+# Laravel cache and logs
+/storage/
+/bootstrap/cache/
+
+# PHPUnit
+.phpunit.result.cache
+
+# IDE and OS files
+.idea/
+*.swp
+*.swo
+*.DS_Store
+
+# Coverage reports
+coverage/
+
+# Node (if any JS tooling is used)
+node_modules/
+
+# Misc
+*.log 
