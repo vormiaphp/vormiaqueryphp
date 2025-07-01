@@ -1,7 +1,17 @@
 {
     "name": "vormiaphp/vormiaqueryphp",
     "description": "Laravel middleware and helpers for VormiaQuery encrypted API",
+    "keywords": ["laravel", "php", "api", "vormiaqueryphp", "vormia"],
     "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Josh Minga",
+            "email": "packages@vormia.com",
+            "homepage": "https://packages.vormia.com/vormiaphp/library/vormiaqueryphp",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": ">=8.0",
         "phpseclib/phpseclib": "^3.0"
@@ -11,11 +21,6 @@
             "VormiaQueryPhp\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "vormiateam"
-        }
-    ],
     "require-dev": {
         "phpunit/phpunit": "^12.2"
     }
