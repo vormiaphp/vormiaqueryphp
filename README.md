@@ -1,5 +1,8 @@
 # vormiaqueryphp
 
+[![Packagist](https://img.shields.io/packagist/v/vormiaphp/vormiaqueryphp.svg)](https://packagist.org/packages/vormiaphp/vormiaqueryphp)
+[![GitHub](https://img.shields.io/github/stars/vormiaphp/vormiaqueryphp.svg)](https://github.com/vormiaphp/vormiaqueryphp)
+
 Laravel middleware and helpers for VormiaQuery encrypted API integration.
 
 ## Installation
