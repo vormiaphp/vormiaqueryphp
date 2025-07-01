@@ -7,6 +7,8 @@ Laravel middleware and helpers for VormiaQuery encrypted API integration.
 
 ## Installation
 
+### Option 1: Manual Installation
+
 1. Install via Composer:
 
 ```bash
@@ -20,6 +22,40 @@ composer require phpseclib/phpseclib
 VORMIA_PRIVATE_KEY="<contents of vormia_private.pem>"
 VORMIA_PUBLIC_KEY="<contents of vormia_public.pem>"
 ```
+
+### Option 2: Using Artisan Command (Recommended)
+
+1. Install via Composer:
+
+```bash
+composer require vormiaphp/vormiaqueryphp
+composer require phpseclib/phpseclib
+```
+
+2. Run the installation command:
+
+```bash
+php artisan vormiaquery:install
+```
+
+This command will:
+
+- Check if Laravel Sanctum is installed
+- Add VormiaQuery environment variables to your `.env` and `.env.example` files
+- Publish CORS configuration if needed
+
+### Uninstallation
+
+To remove VormiaQuery integration:
+
+```bash
+php artisan vormiaquery:install --uninstall
+```
+
+This command will:
+
+- Remove VormiaQuery environment variables from `.env` and `.env.example` files
+- Remove CORS configuration file
 
 ## Middleware Usage
 
