@@ -8,10 +8,11 @@ class VormiaQueryPhpServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        // Register command
-        $this->commands([
-            \VormiaQueryPhp\Console\VormiaQueryInstallCommand::class,
-        ]);
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                \VormiaQueryPhp\Console\VormiaQueryInstallCommand::class,
+            ]);
+        }
     }
 
     public function boot()

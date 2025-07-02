@@ -23,5 +23,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^12.2"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VormiaQueryPhp\\VormiaQueryPhpServiceProvider"
+            ]
+        }
     }
 }

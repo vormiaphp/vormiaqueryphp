@@ -7,23 +7,7 @@ Laravel middleware and helpers for VormiaQuery encrypted API integration.
 
 ## Installation
 
-### Option 1: Manual Installation
-
-1. Install via Composer:
-
-```bash
-composer require vormiaphp/vormiaqueryphp
-composer require phpseclib/phpseclib
-```
-
-2. Add your RSA keys to `.env`:
-
-```env
-VORMIA_PRIVATE_KEY="<contents of vormia_private.pem>"
-VORMIA_PUBLIC_KEY="<contents of vormia_public.pem>"
-```
-
-### Option 2: Using Artisan Command (Recommended)
+### Using Artisan Command (Recommended)
 
 1. Install via Composer:
 
@@ -43,6 +27,13 @@ This command will:
 - Check if Laravel Sanctum is installed
 - Add VormiaQuery environment variables to your `.env` and `.env.example` files
 - Publish CORS configuration if needed
+
+3. Add your RSA keys to `.env`:
+
+```env
+VORMIA_PRIVATE_KEY="<contents of vormia_private.pem>"
+VORMIA_PUBLIC_KEY="<contents of vormia_public.pem>"
+```
 
 ### Uninstallation
 
@@ -77,8 +68,10 @@ Register the middleware in your `app/Http/Kernel.php`:
 ```php
 protected $routeMiddleware = [
     // ...
-    'vormia.decrypt' => \VormiaQueryPhp\Http\Middleware\DecryptVormiaRequest::class,
-    'vormia.encrypt' => \VormiaQueryPhp\Http\Middleware\EncryptVormiaResponse::class,
+    $middleware->alias([
+        'vormia.decrypt' => \VormiaQueryPhp\Http\Middleware\DecryptVormiaRequest::class,
+        'vormia.encrypt' => \VormiaQueryPhp\Http\Middleware\EncryptVormiaResponse::class,
+    ]);
 ];
 ```
 
