@@ -45,13 +45,26 @@ VORMIA_PUBLIC_KEY="<contents of vormia_public.pem>"
 To remove VormiaQuery integration:
 
 ```bash
-php artisan vormiaquery:install --uninstall
+php artisan vormiaquery:uninstall
 ```
 
 This command will:
 
 - Remove VormiaQuery environment variables from `.env` and `.env.example` files
 - Remove CORS configuration file
+
+### Update
+
+To update VormiaQuery integration (re-run setup steps):
+
+```bash
+php artisan vormiaquery:update
+```
+
+This command will:
+
+- Re-apply environment variables and configuration as needed
+- Prompt for any new setup steps in future versions
 
 ---
 

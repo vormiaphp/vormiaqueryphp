@@ -11,6 +11,8 @@ class VormiaQueryPhpServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 \VormiaQueryPhp\Console\VormiaQueryInstallCommand::class,
+                \VormiaQueryPhp\Console\VormiaQueryUninstallCommand::class,
+                \VormiaQueryPhp\Console\VormiaQueryUpdateCommand::class,
             ]);
         }
     }

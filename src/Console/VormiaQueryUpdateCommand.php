@@ -5,17 +5,17 @@ namespace VormiaQueryPhp\Console;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-class VormiaQueryInstallCommand extends Command
+class VormiaQueryUpdateCommand extends Command
 {
-    protected $signature = 'vormiaquery:install {--uninstall}';
-    protected $description = 'Install or uninstall VormiaQuery integration (Sanctum, keys, CORS)';
+    protected $signature = 'vormiaquery:update';
+    protected $description = 'Update VormiaQuery integration (re-run setup steps)';
 
     public function handle()
     {
         $this->checkSanctum();
         $this->addKeysToEnv();
         $this->publishCorsConfig();
-        $this->info('VormiaQuery integration complete!');
+        $this->info('VormiaQuery integration updated!');
         return 0;
     }
 
@@ -57,21 +57,6 @@ class VormiaQueryInstallCommand extends Command
         if ($changed) file_put_contents($file, $env);
     }
 
-    protected function removeKeysFromEnv()
-    {
-        $this->removeKeyFromEnvFile(base_path('.env'));
-        $this->removeKeyFromEnvFile(base_path('.env.example'));
-    }
-
-    protected function removeKeyFromEnvFile($file)
-    {
-        if (!file_exists($file)) return;
-        $env = file_get_contents($file);
-        $env = preg_replace('/^VORMIA_PRIVATE_KEY=.*[\r\n]?/m', '', $env);
-        $env = preg_replace('/^VORMIA_PUBLIC_KEY=.*[\r\n]?/m', '', $env);
-        file_put_contents($file, $env);
-    }
-
     protected function publishCorsConfig()
     {
         $corsConfig = config_path('cors.php');
@@ -83,15 +68,6 @@ class VormiaQueryInstallCommand extends Command
             }
         } else {
             $this->info('CORS config already published.');
-        }
-    }
-
-    protected function removeCorsConfig()
-    {
-        $corsConfig = config_path('cors.php');
-        if (file_exists($corsConfig)) {
-            unlink($corsConfig);
-            $this->info('CORS config removed.');
         }
     }
 }
