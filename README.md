@@ -24,9 +24,14 @@ php artisan vormiaquery:install
 
 This command will:
 
-- Check if Laravel Sanctum is installed
+- Prompt you to install Sanctum API features if not already installed (Laravel 12+)
 - Add VormiaQuery environment variables to your `.env` and `.env.example` files
-- Publish CORS configuration if needed
+- Prompt you to publish CORS configuration if not already published
+
+You will be interactively asked to run:
+
+- `php artisan install:api` (for Sanctum)
+- `php artisan vendor:publish --tag=cors` (for CORS)
 
 3. Add your RSA keys to `.env`:
 
@@ -47,6 +52,12 @@ This command will:
 
 - Remove VormiaQuery environment variables from `.env` and `.env.example` files
 - Remove CORS configuration file
+
+---
+
+**Note:**
+
+- There is currently no separate `update` command. Use the install command to re-run setup steps as needed.
 
 ## JavaScript Client Package
 
@@ -189,120 +200,3 @@ if (!VormiaSecurityHelper::isIpAllowed()) {
     abort(403, 'IP not allowed');
 }
 ```
-
-### 6. Advanced Token Validation
-
-```php
-use VormiaQueryPhp\Helpers\VormiaSecurityHelper;
-
-if (!VormiaSecurityHelper::validateApiToken('advanced')) {
-    abort(401, 'Invalid or insufficient token');
-}
-```
-
-### 7. Combining Multiple Security Checks
-
-```php
-use VormiaQueryPhp\Helpers\VormiaSecurityHelper;
-
-if (!VormiaSecurityHelper::isDomainAllowed()) {
-    abort(403, 'Domain not allowed');
-}
-if (!VormiaSecurityHelper::isIpAllowed()) {
-    abort(403, 'IP not allowed');
-}
-if (!VormiaSecurityHelper::validateApiToken('advanced')) {
-    abort(401, 'Invalid or insufficient token');
-}
-if (!VormiaSecurityHelper::rateLimit(request()->ip(), 5, 60)) {
-    abort(429, 'Too many requests');
-}
-```
-
-### 8. Using Security Checks in Middleware
-
-```php
-namespace App\Http\Middleware;
-
-use Closure;
-use VormiaQueryPhp\Helpers\VormiaSecurityHelper;
-
-class VormiaApiSecurity
-{
-    public function handle($request, Closure $next)
-    {
-        if (!VormiaSecurityHelper::isDomainAllowed()) {
-            abort(403, 'Domain not allowed');
-        }
-        if (!VormiaSecurityHelper::isIpAllowed()) {
-            abort(403, 'IP not allowed');
-        }
-        if (!VormiaSecurityHelper::validateApiToken('advanced')) {
-            abort(401, 'Invalid or insufficient token');
-        }
-        if (!VormiaSecurityHelper::rateLimit($request->ip(), 10, 60)) {
-            abort(429, 'Too many requests');
-        }
-        return $next($request);
-    }
-}
-```
-
-### 9. Custom Advanced Token Validation
-
-```php
-use VormiaQueryPhp\Helpers\VormiaSecurityHelper;
-
-// Override the advancedTokenValidation method in your own helper or extend VormiaSecurityHelper
-class MySecurityHelper extends VormiaSecurityHelper
-{
-    public static function advancedTokenValidation($token)
-    {
-        // Example: check token in a custom DB table
-        return \DB::table('api_tokens')->where('token', $token)->where('active', 1)->exists();
-    }
-}
-
-if (!MySecurityHelper::validateApiToken('advanced')) {
-    abort(401, 'Invalid or insufficient token');
-}
-```
-
-### 10. Brute-force Protection
-
-```php
-use VormiaQueryPhp\Helpers\VormiaSecurityHelper;
-
-$key = request()->ip();
-if (!VormiaSecurityHelper::bruteForceProtect($key, 5, 300)) {
-    VormiaSecurityHelper::logSecurityEvent('Brute-force blocked', ['ip' => $key]);
-    abort(429, 'Too many failed attempts');
-}
-// On successful login or action:
-// VormiaSecurityHelper::resetBruteForce($key);
-```
-
-### 11. Request Logging
-
-```php
-use VormiaQueryPhp\Helpers\VormiaSecurityHelper;
-
-VormiaSecurityHelper::logSecurityEvent('Sensitive action', ['action' => 'delete', 'resource_id' => 123]);
-```
-
-### 12. Security Event Hooks
-
-```php
-use VormiaQueryPhp\Helpers\VormiaSecurityHelper;
-
-VormiaSecurityHelper::onSecurityEvent('token_invalid', function($event, $context) {
-    // Send alert, log, or trigger custom logic
-    \Log::warning("Security event: $event", $context);
-});
-```
-
-You can use these helpers in controllers, middleware, or route closures to add extra security to your VormiaQuery endpoints.
-
----
-
-For more, see the VormiaQuery JavaScript package documentation.

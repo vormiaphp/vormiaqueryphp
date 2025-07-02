@@ -31,7 +31,12 @@ class VormiaQueryInstallCommand extends Command
         $composer = json_decode(file_get_contents(base_path('composer.json')), true);
         $hasSanctum = isset($composer['require']['laravel/sanctum']) || isset($composer['require-dev']['laravel/sanctum']);
         if (!$hasSanctum) {
-            $this->warn('Laravel Sanctum is not installed. Run: composer require laravel/sanctum');
+            if ($this->confirm('Laravel Sanctum is not installed. Would you like to run "php artisan install:api" now?', true)) {
+                $this->call('install:api');
+                $this->info('Sanctum API features installed.');
+            } else {
+                $this->warn('You must run "php artisan install:api" to enable Sanctum API features.');
+            }
         } else {
             $this->info('Laravel Sanctum detected.');
         }
@@ -78,7 +83,11 @@ class VormiaQueryInstallCommand extends Command
     {
         $corsConfig = config_path('cors.php');
         if (!file_exists($corsConfig)) {
-            $this->call('vendor:publish', ['--tag' => 'cors']);
+            if ($this->confirm('CORS config is not published. Would you like to publish it now?', true)) {
+                $this->call('vendor:publish', ['--tag' => 'cors']);
+            } else {
+                $this->warn('CORS config was not published. You can do it later with: php artisan vendor:publish --tag=cors');
+            }
         } else {
             $this->info('CORS config already published.');
         }
